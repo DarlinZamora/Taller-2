@@ -1,0 +1,40 @@
+import type { MediaItem } from '../types/media-item'
+import { MediaTypeBadge } from './media-type-badge'
+
+type MediaCardProps = {
+  data: MediaItem
+  onSelect: (mediaId: number) => void
+}
+
+export function MediaCard(props: MediaCardProps) {
+  const { data, onSelect } = props
+  return (
+    <article className="media-card">
+      {data.posterUrl ? (
+        <img
+          className="media-card__poster-image"
+          src={data.posterUrl}
+          alt={`Poster de ${data.title}`}
+        />
+      ) : (
+        <div className="media-card__poster">Poster no disponible</div>
+      )}
+
+      <div>
+        <p className="media-card__meta">
+          <MediaTypeBadge mediaType={data.mediaType} /> · {data.releaseDate}
+        </p>
+        <h3>{data.title}</h3>
+        <p>{data.description ?? 'Sin descripción disponible'}</p>
+        <button
+          className="detail-button"
+          type="button"
+          aria-label={`Ver detalle de ${data.title}`}
+          onClick={() => onSelect(data.id)}
+        >
+          Ver detalle
+        </button>
+      </div>
+    </article>
+  )
+}
